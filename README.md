@@ -1,2 +1,2 @@
 # template-project
-Custom template project to create project repositories.
+Custom template project to create project repositories using GitHub actions
