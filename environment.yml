@@ -1,0 +1,16 @@
+name: project-name
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3
+  - jupyterlab
+  - os
+  - sys
+  - glob
+  - copy
+  - tqdm
+  - itertools
+  - dill
+  - h5py
+  - numpy
