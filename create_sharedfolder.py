@@ -2,17 +2,19 @@ import os
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
+from google.oauth2.credentials import Credentials
 
 # Google Drive API scopes
 SCOPES = ['https://www.googleapis.com/auth/drive']
 
 def create_shared_folder(folder_name):
     creds = None
+
     # The file token.json stores the user's access and refresh tokens
     if os.path.exists('token.json'):
         creds = Credentials.from_authorized_user_file('token.json', SCOPES)
 
-  # If there are no (valid) credentials available, let the user log in.
+    # If there are no (valid) credentials available, let the user log in.
     if not creds or not creds.valid:
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
@@ -23,8 +25,7 @@ def create_shared_folder(folder_name):
 
         # Save the credentials for the next run
         with open('token.json', 'w') as token:
-            token.write(creds.to_authorized_user_info())
-
+            token.write(creds.to_json())
     # Build the Google Drive API service
     drive_service = build('drive', 'v3', credentials=creds)
 
@@ -34,9 +35,9 @@ def create_shared_folder(folder_name):
         'mimeType': 'application/vnd.google-apps.folder'
     }
     folder = drive_service.files().create(body=file_metadata,
-                                          fields='id').execute()
+                                          fields='id,webViewLink').execute()
 
-    # Share the folder
+    # Share the folder with anyone with the link
     permission = {
         'type': 'anyone',
         'role': 'reader'
@@ -44,6 +45,7 @@ def create_shared_folder(folder_name):
     drive_service.permissions().create(fileId=folder['id'], body=permission).execute()
 
     print(f"Shared folder '{folder_name}' created with ID: {folder['id']}")
+    print(f"Folder link: {folder['webViewLink']}")
 
 if __name__ == '__main__':
     folder_name = input("Enter the folder name: ")
