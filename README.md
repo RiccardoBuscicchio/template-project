@@ -1,6 +1,10 @@
 # template-project
 
 Custom template project as a base for project repositories.
+<a href="https://github.com/new?template_name=template-project&template_owner=RiccardoBuscicchio">
+  <img src="https://img.shields.io/badge/use%20this-template-blue?logo=github">
+</a>
+
 
 ## Useful links
 
