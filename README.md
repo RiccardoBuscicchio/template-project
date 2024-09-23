@@ -17,7 +17,20 @@ Collaborators:
 In this **`README.md`** file we document the typical working tree for a small scale project.
 
 Having a tree structure defined in advance saves a lot of time and headaches down the line. Spend five minutes now familiarizing with the structure, you'll save hours later. Here I propose a structure tested over time that fits into most situations I've encountered so far.
+The folders and files below follow closely the workflow represented below:
 
+```mermaid
+  flowchart LR
+  id1[(data)]
+  id1-->code & notebooks
+  models-->code & notebooks
+  code --> id2
+  id2 --> notebooks
+  notebooks --> id3
+  scripts --> code & notebooks
+  id2[(results)]
+  id3[(plots)]
+```
 
 * **`environment.yml`**: a file to ensure reproducibility of the working python environment
 * **`./code`**: typically, we share some code, more or less tested (this is where the project core code should be).
