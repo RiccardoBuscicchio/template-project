@@ -20,16 +20,29 @@ Having a tree structure defined in advance saves a lot of time and headaches dow
 The folders and files below follow closely the workflow represented below:
 
 ```mermaid
-  flowchart LR
-  id1[(data)]
-  id1-->code & notebooks
-  models-->code & notebooks
-  code --> id2
-  id2 --> notebooks
-  notebooks --> id3
-  scripts --> code & notebooks
-  id2[(results)]
-  id3[(plots)]
+  flowchart TD
+  subgraph "output"
+    id3[(results)]
+    id4[(plots)]
+  end
+  subgraph "processing"
+    subgraph "software"
+      jobs --> id3
+      scripts --> id3
+      notebooks-->id4
+      notebooks<-->id3
+    end
+    subgraph "misc"
+      notes
+      bibliography
+    end  
+  end
+  subgraph "input"
+    id1[(data)] --> scripts & notebooks
+    id2[(models)] --> scripts & notebooks
+    code --> scripts
+    code --> notebooks
+  end
 ```
 
 * **`environment.yml`**: a file to ensure reproducibility of the working python environment
