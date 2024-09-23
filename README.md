@@ -21,6 +21,7 @@ The folders and files below follow closely the workflow represented below:
 
 ```mermaid
   flowchart TD
+  classDef default fill:#008080,stroke:#333,stroke-width:4px;
   subgraph "output"
     id3[(results)]
     id4[(plots)]
@@ -44,18 +45,35 @@ The folders and files below follow closely the workflow represented below:
     code --> notebooks
   end
 ```
+## Input
+* **`./data`**: typically, the code requires some input data (e.g. upstream analyses results, proprietary data, etc).
+* **`./models`**: typically, we need to define a number of different models (e.g. parameters) while developing our analysis.
+  It's good to keep the parameters stored as machine-readable and human-readable objects: `json`, `yaml`, `hdf5`, `dill`.
+  You can pick whichever you prefer, better if there are input/output libraries available and documented for Python.
+  The fewer formats you use across the project, the easier it is for others to do the same.
+* **`./code`**: this is where the main code libraries of the project should be stored.
+  This can be either third party libraries, contributed code from other projects, or the code developed for this project
+
+## Processing
+
+### Software 
+* **`./scripts`**: depending on the size of the projects, you might need scripts to be run on HPC, standalone scripts to be executed on local machines, etc.
+  This is where they should go. Typically, they import from `code`, execute some tasks, then return `results`.
+* **`./notebooks`**: similar to scripts, though they are used either to prototype `code`, or to perform agile operations, e.g. drawing plots. The standard assumption is that every plot for production content is produced by `./jupyter` notebooks
+  Similarly, execution of `./mathematica` notebooks leads to `results`, typically data processed for plot production, or tex content.
+  Once we trust a piece of code under development, it can be migrated into the `./code`.
+  This two step process is my typical workflow, and it would be nice if you use it when collaborating with me, too.
+
+### Misc
+* **`./notes`**: typically, we tend to share short notes (e.g. mathematical derivations, proofs, back-of-the envelopes calculations), logging our discussion and research process. _Markdown_, _LateX_, _Plain text_, or any digital note-taking format are all good choices. Always prefer source-code (e.g. tex) over compiled files (i.e. pdf), to avoid repository useless bloating.
+* **`refs.bib`**: a place to store useful references for the project
+
+## Output
 
 * **`environment.yml`**: a file to ensure reproducibility of the working python environment
-* **`./code`**: typically, we share some code, more or less tested (this is where the project core code should be).
-* **`./data`**: typically, the code requires some input data (e.g. upstream analyses results, proprietary data, etc).
-* **`./models`**: typically, we need to define a number of different models (e.g. parameters) while developing our analysis. It's good to keep the parameters stored as machine-readable and human-readable objects: `json`, `yaml`, `hdf5`, `dill`. You can pick whichever you prefer, better if there are input/output libraries available and documented for Python. The fewer formats you use across the project, the easier it is for others to do the same.
-* **`./notebooks`**: typically, we tend to develop code through `./jupyter` (i.e. a fancy, lightweight, browser-based working environment for Python) or `./mathematica`  notebooks, as it's easy to look through them, run them, fix them. Once we trust a piece of code under development, it can be migrated into the `./code`. This two step process is my typical workflow, and it would be nice if you use it when collaborating with me, too.
-* **`./notes`**: typically, we tend to share short notes (e.g. mathematical derivations, proofs, back-of-the envelopes calculations), logging our discussion and research process. _Markdown_, _LateX_, _Plain text_, or any digital note-taking format are all good choices. Always prefer source-code (e.g. tex) over compiled files (i.e. pdf), to avoid repository useless bloating.
-* **`./scripts`**: we need some place to dump recurrent scripts, external scripts we re-use over time, recycled from previous projects (e.g. plotting stuff, as in the example `figures.py`).
 * **`./results`**: the code produces some output, as data products.
 * **`./plots`**: typically, we inspect and publish our data products results as plots. It's good to keep the result production from the plot production separate, especially when aiming for a publication, or a thesis.
 * **`./jobs`**: typically, the code might be run on high-performance cluster with different standards for `./jobs` submission files (e.g. slurms, condor). It's good to keep the job submission files stored for future reproducibility. Most of the time clusters produce `./logs` of the computing activity, useful to monitor the job status and outcome.
-* **`refs.bib`**: a place to store useful references for the project
 
 Never trust your procedural memory (i.e. remembering the exact sequence of actions to obtain a result): in 9 months time it will be gone. So document what you do within reason.
 
