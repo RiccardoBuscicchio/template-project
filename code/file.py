@@ -1,5 +1,5 @@
 import argparse
-from lib import plotlib  
+from lib.plotlib import plot_histogram
 # Import the function from the code/lib folder
 
 if __name__ == "__main__":
